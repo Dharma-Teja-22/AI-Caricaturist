@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import { Upload, Edit2, X } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/themes/ThemeToggle";
 import { useTheme } from "next-themes";
 import MiracleLoader from "../assets/Loader.gif";
 import LabsLogoBlack from "../assets/labsBlack.png";

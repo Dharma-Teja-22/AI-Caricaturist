@@ -1,9 +1,12 @@
-import CaricatureGeneration from "./components/CaricatureGeneration";
+// import CaricatureGeneration from "./components/CaricatureGeneration";
+
+import Caricature from "./components/Caricature";
 
 function App() {
   return (
     <>
-      <CaricatureGeneration/>
+      {/* <CaricatureGeneration/> */}
+      <Caricature/>
     </>
   );
 }
