@@ -53,12 +53,13 @@ const PromptConfiguration = ({ prompts, selectedPrompts, handlePromptToggle, set
         >
           Back
         </button>
-        <button
+        {selectedPrompts.length > 0 &&
+          <button
           onClick={() => setStep(3)}
           className="px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-miracle-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
         >
           Next
-        </button>
+        </button>}
       </div>
     </motion.div>
   )

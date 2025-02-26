@@ -7,6 +7,7 @@ import { useTheme } from "next-themes";
 import MiracleLoader from "../assets/Loader.gif";
 import LabsLogoBlack from "../assets/labsBlack.png";
 import LabsLogoWhite from "../assets/labsWhite.png";
+import Step from "./Step";
 
 const Image = dynamic(() => import("next/image"), { ssr: false });
 
@@ -127,7 +128,10 @@ export default function CaricatureGeneration() {
   //   };
 
   return (
+    
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-red-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col transition-colors duration-200">
+      <Step step={step}/>
+      
       <header className="bg-miracle-white dark:bg-gray-800 shadow-sm">
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between">
           <div className="flex items-center space-x-6 mb-4 sm:mb-0">

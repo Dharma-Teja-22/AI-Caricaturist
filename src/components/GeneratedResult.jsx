@@ -59,6 +59,7 @@ import { useRef } from "react";
 const GeneratedResult = ({ handleStartOver, generatedImage }) => {
   const captureRef = useRef(null);
 
+
   const handleDownload = async () => {
     if (captureRef.current) {
       const canvas = await html2canvas(captureRef.current, {
@@ -85,16 +86,16 @@ const GeneratedResult = ({ handleStartOver, generatedImage }) => {
       transition={{ duration: 0.5 }}
       className="text-center max-w-md mx-auto"
     >
-      <div>
+      <div >
         <h2 className="text-3xl font-bold text-gray-900 mb-6 dark:text-gray-200">
           Your Caricature
         </h2>
         {/* Capture this div */}
         <div
           ref={captureRef}
-          className="bg-white shadow-lg rounded-lg p-4 inline-block items-center"
+          className="bg-white shadow-lg rounded-lg p-4 inline-block items-center "
         >
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center ">
             <img src={LabsLogo} alt="Labs Logo" className="h-10 w-30 mb-2" />
             <p className="font-bold mb-2 dark:text-miracle-darkBlue text-miracle-lightBlue/100">
               Booth #1234

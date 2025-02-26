@@ -11,6 +11,7 @@ const UploadStep = ({
   handleReupload,
   setStep,
   setUploadedImage,
+  step,
 }) => {
   const webcamRef = useRef(null);
   const [isCamera, setIsCamera] = useState(false);
@@ -21,9 +22,7 @@ const UploadStep = ({
       const imageSrc = webcamRef.current.getScreenshot();
       setUploadedImage(imageSrc);
       setIsCamera(false);
-    }
-    else
-    {
+    } else {
       console.log("Error");
       toast.error("Please fill in all fields!");
     }
@@ -34,10 +33,9 @@ const UploadStep = ({
   };
 
   const handleCameraToggle = () => {
-    if(webcamRef.current.state.hasUserMedia === false){
-      toast.error("Camera is Necessary")
-    }
-    else{
+    if (webcamRef.current.state.hasUserMedia === false) {
+      toast.error("Camera is Necessary");
+    } else {
       setIsCamera((prev) => !prev);
     }
   };
@@ -108,39 +106,42 @@ const UploadStep = ({
                 className="inline-flex justify-center text-center items-center w-full px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
               >
                 <CameraIcon className="w-5 h-5 mr-2" />
-                {isCamera ? "Close Camera": "Capture Image"}
+                {isCamera ? "Close Camera" : "Capture Image"}
               </button>
             </div>
 
-
-              <div className={`w-full ${isCamera ? "flex" : "hidden"} flex items-center flex-col`}>
-                <div className="relative w-full border border-black h-[300px]">
-                  <Webcam
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    videoConstraints={{ facingMode, aspectRatio: 16 / 15 }}
-                    mirrored={false}
-                    className="rounded-md absolute"
-                  />
-                  <div className="absolute right-0 p-2">
-                    <button
-                      onClick={toggleCameraView}
-                      className=" text-white rounded-md shadow-md flex items-center"
-                    >
-                      <RefreshCw className="w-7 h-7" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex w-fit gap-4">
+            <div
+              className={`w-full ${
+                isCamera ? "flex" : "hidden"
+              } flex items-center flex-col`}
+            >
+              <div className="relative w-full border border-black h-[300px]">
+                <Webcam
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  videoConstraints={{ facingMode, aspectRatio: 16 / 15 }}
+                  mirrored={false}
+                  className="rounded-md absolute"
+                />
+                <div className="absolute right-0 p-2">
                   <button
-                    onClick={handleCameraCapture}
-                    className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md shadow-md"
+                    onClick={toggleCameraView}
+                    className=" text-white rounded-md shadow-md flex items-center"
                   >
-                    Take Photo
+                    <RefreshCw className="w-7 h-7" />
                   </button>
                 </div>
               </div>
+
+              <div className="flex w-fit gap-4">
+                <button
+                  onClick={handleCameraCapture}
+                  className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md shadow-md"
+                >
+                  Take Photo
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
