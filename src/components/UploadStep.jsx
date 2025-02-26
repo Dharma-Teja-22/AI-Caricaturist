@@ -41,19 +41,27 @@ const UploadStep = ({
   };
 
   return (
+    // <motion.div
+    //   key="step1"
+    //   initial={{ opacity: 0, y: 50 }}
+    //   animate={{ opacity: 1, y: 0 }}
+    //   exit={{ opacity: 0, y: -50 }}
+    //   transition={{ duration: 0.5 }}
+    //   className="max-w-md mx-auto p-4 md:p-6 lg:p-8"
+    // >
     <motion.div
       key="step1"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -50 }}
       transition={{ duration: 0.5 }}
-      className="max-w-md mx-auto p-4 md:p-6 lg:p-8"
+      className="max-w-md mx-auto sm:p-6 lg-p-8"
     >
       <ToastContainer />
 
-      <div className="bg-white shadow-lg rounded-lg p-6 md:p-8 text-center">
+      <div className="bg-white shadow-lg rounded-lg p-6 md:p-8 text-center ">
         <Upload className="mx-auto h-16 w-16 text-blue-500" />
-        <h2 className="mt-4 text-2xl font-semibold text-gray-900">
+        <h2 className="mt-4 text-xl sm:text-2xl font-semibold text-gray-900">
           Upload or Capture an Image
         </h2>
         <p className="mt-2 text-sm text-gray-500">
@@ -115,11 +123,11 @@ const UploadStep = ({
                 isCamera ? "flex" : "hidden"
               } flex items-center flex-col`}
             >
-              <div className="relative w-full border border-black h-[300px]">
+              <div className="relative w-full h-[295px]">
                 <Webcam
                   ref={webcamRef}
                   screenshotFormat="image/jpeg"
-                  videoConstraints={{ facingMode, aspectRatio: 16 / 15 }}
+                  videoConstraints={{ facingMode, aspectRatio: 16 / 17 }}
                   mirrored={false}
                   className="rounded-md absolute"
                 />

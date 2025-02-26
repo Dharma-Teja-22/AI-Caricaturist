@@ -11,8 +11,8 @@ const GenerationProcess = ({ title, subTitle, loading, loadingAnimation, Miracle
       className="text-center max-w-md mx-auto"
     >
       
-      <h2 className="text-3xl font-bold text-gray-900 mb-6 dark:text-gray-200">{title}</h2>
-      <p className="text-lg text-gray-600 mb-8 dark:text-gray-300">{subTitle}</p>
+      <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 dark:text-gray-200">{title}</h2>
+      <p className="text-sm sm:text-lg text-gray-600 mb-8 dark:text-gray-300">{subTitle}</p>
       {loading === true ? (
         <div className="flex item-center w-fit justify-center m-auto">
           <img src={MiracleLoader || "/placeholder.svg"} alt="Loader" width={150} height={150} />

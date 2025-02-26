@@ -22,7 +22,7 @@ export default function Caricature() {
   const [selectedStyle, setSelectedStyle] = useState(null);
   const [loading, setLoading] = useState(false);
   const { theme, setTheme } = useTheme();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
   const videoRef = useRef(null); // Ref to hold the video element
   const canvasRef = useRef(null); // Ref to hold the canvas element
 
