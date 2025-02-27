@@ -6,10 +6,9 @@ import fullLabsBlackLogo from '../assets/labsBlack.png'
 
 const Header = ({ step, theme }) => {
   return (
-    <header className="bg-miracle-white dark:bg-gray-800 shadow-sm ">
-      <div className="max-w-full mx-auto md:p-4 flex flex-col sm:flex-row items-center justify-between py-2">
+    <header className="fixed top-0 left-0 w-full bg-miracle-white dark:bg-gray-800 shadow-sm z-50">
+      <div className="max-w-full mx-auto md:p-4 flex flex-col sm:flex-row items-center justify-between py-2 ">
         <div className="flex w-full sm:w-fit items-center mb-1 sm:mb-0">
-
           {/* mobile logo */}
           <img
             src={theme === "light" || theme === "system" ? LabsLogoBlack : LabsLogoWhite}
@@ -18,7 +17,6 @@ const Header = ({ step, theme }) => {
             height={40}
             className="sm:hidden ml-1"
           />
-
           {/* desktop logo */}
           <img
             src={theme === "light" || theme === "system" ? fullLabsBlackLogo : fullLabsWhiteLogo}
@@ -31,9 +29,8 @@ const Header = ({ step, theme }) => {
             AI Caricature Generator
           </h1>
           <div className="sm:hidden">
-            <ThemeToggle/>
+            <ThemeToggle />
           </div>
-            {/* <ThemeToggle className='border border-red-600' /> */}
         </div>
         <div className="sm:flex items-center space-x-4 hidden">
           <span className="text-sm text-gray-500 dark:text-gray-200 ">Step {step} of 5</span>
@@ -46,11 +43,8 @@ const Header = ({ step, theme }) => {
           <ThemeToggle />
         </div>
       </div>
-
-
-
     </header>
-  )
-}
+  );
+};
 
 export default Header;
