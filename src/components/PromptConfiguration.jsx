@@ -48,14 +48,18 @@ const PromptConfiguration = ({ prompts, selectedPrompts, handlePromptToggle, set
       </motion.div>
       <div className="mt-8 flex justify-between">
         <button
-          onClick={() => setStep(1)}
+          onClick={() => {setStep(1);
+            // localStorage.setItem("step",1);
+          }}
           className="px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-miracle-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
         >
           Back
         </button>
         {selectedPrompts.length > 0 &&
           <button
-          onClick={() => setStep(3)}
+          onClick={() => {setStep(3);
+            // localStorage.setItem("step",3);
+          }}
           className="px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-miracle-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
         >
           Next

@@ -4,10 +4,10 @@ import dynamic from "next/dynamic";
 import { Upload, Edit2, X } from "lucide-react";
 import { ThemeToggle } from "@/components/themes/ThemeToggle";
 import { useTheme } from "next-themes";
-import MiracleLoader from "../assets/Loader.gif";
-import LabsLogoBlack from "../assets/labsBlack.png";
-import LabsLogoWhite from "../assets/labsWhite.png";
-import Step from "./Step";
+import MiracleLoader from "../../assets/Loader.gif";
+import LabsLogoBlack from "../../assets/labsBlack.png";
+import LabsLogoWhite from "../../assets/labsWhite.png";
+import Step from "../Step";
 
 const Image = dynamic(() => import("next/image"), { ssr: false });
 
@@ -58,6 +58,7 @@ export default function CaricatureGeneration() {
     setSelectedPrompts([]);
     setUploadedImage();
     setSelectedStyle();
+    // localStorage.clear()
     setStep(1);
   };
 
@@ -122,10 +123,6 @@ export default function CaricatureGeneration() {
     setUploadedImage(null);
     setStep(1);
   };
-
-  //   const handleNextStep = () => {
-  //     setStep(2);
-  //   };
 
   return (
     
@@ -197,7 +194,9 @@ export default function CaricatureGeneration() {
                       <X className="w-5 h-5 text-gray-600" />
                     </button>
                     <button
-                      onClick={() => setStep(2)}
+                      onClick={() => {setStep(2)
+                      // localStorage.setItem("step",2);
+                      }}
                       className="mt-6 px-6 py-3 w-full border border-transparent text-base font-medium rounded-md shadow-sm text-miracle-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                     >
                       Next
@@ -312,7 +311,7 @@ export default function CaricatureGeneration() {
                       src={style || "/placeholder.svg"}
                       alt="Style"
                       layout="fill"
-                      objectFit="cover"
+                      className="object-cover"
                     />
                   </button>
                 ))}

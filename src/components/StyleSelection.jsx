@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 
 const StyleSelection = ({ styles, handleStyleSelect, setStep }) => {
+
   return (
     <motion.div
       key="step3"
@@ -25,13 +26,15 @@ const StyleSelection = ({ styles, handleStyleSelect, setStep }) => {
             }}
             className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-200 transform hover:scale-105"
           >
-            <img src={style || "/placeholder.svg"} alt="Style" layout="fill" objectFit="cover" />
+            <img src={style || "/placeholder.svg"} alt="Style" layout="fill" className="object-cover" />
           </motion.button>
         ))}
       </div>
       <div className="mt-8 flex justify-between">
         <button
-          onClick={() => setStep(2)}
+          onClick={() => {setStep(2)
+            // localStorage.setItem("step",2);
+          }}
           className="px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-miracle-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
         >
           Back

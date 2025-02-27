@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input.jsx";
 import { Label } from "@/components/ui/label";
 import { z } from "zod";
+import { UserContext } from "@/App";
 
 const formSchema = z.object({
   consent: z.literal(true, {
@@ -15,12 +16,14 @@ const formSchema = z.object({
   aiUseCase: z.string().min(1, "AI use case is required"),
 });
 
-const ConsentStep = ({ setStep, setUserData }) => {
+
+const ConsentStep = ({ setUserData }) => {
+  const {setStep} = useContext(UserContext);
   const [consent, setConsent] = useState(false);
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [aiUseCase, setAiUseCase] = useState("");
+  const [fullName, setFullName] = useState("Dharma");
+  const [email, setEmail] = useState("dt@example.com");
+  const [designation, setDesignation] = useState("ST");
+  const [aiUseCase, setAiUseCase] = useState("AI AI AI AI AI AI ");
   const [errors, setErrors] = useState({});
   const [shake, setShake] = useState({
     consent: false,
@@ -90,9 +93,9 @@ const ConsentStep = ({ setStep, setUserData }) => {
             />
             <Label
               htmlFor="consent"
-              className="text-sm text-gray-700 dark:text-gray-500"
+              className="text-sm text-gray-700 dark:text-gray-500 text-center"
             >
-              I allow the recording of my data for this application.
+              I'm allowed to record my personal data for this application.
             </Label>
           </motion.div>
           {errors.consent && (

@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { AnimatePresence } from "framer-motion";
-import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 import MiracleLoader from "../assets/Loader.gif";
 import Header from "@/components/Header";
@@ -10,25 +9,26 @@ import StyleStep from "@/components/StyleSelection";
 import GenerateStep from "@/components/GenerationProcess";
 import ResultStep from "@/components/GeneratedResult";
 import ConsentStep from "./ConsentStep";
-
-const Image = dynamic(() => import("next/image"), { ssr: false });
+import { UserContext } from "@/App";
 
 export default function Caricature() {
+  const {step, setStep , userData, setUserData} = useContext(UserContext);
+  
   const [subTitle, setSubTitle] = useState(
     "Excited to transform your photo? Click 'Generate'!"
   );  
   const [title, setTitle] = useState("Generate Caricature");
   const [selectedPrompts, setSelectedPrompts] = useState([]);
-  const [uploadedImage, setUploadedImage] = useState(null); // This holds the captured image
-  const [selectedStyle, setSelectedStyle] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState('');
+  const [selectedStyle, setSelectedStyle] = useState('');
   const [loading, setLoading] = useState(false);
   const { theme, setTheme } = useTheme();
-  const [userData, setUserData] = useState(null);
-  const [step, setStep] = useState(0);
-  const videoRef = useRef(null); // Ref to hold the video element
-  const canvasRef = useRef(null); // Ref to hold the canvas element
+  // const [userData, setUserData] = useState(null);
+  
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
 
-  const [prompts, setPrompts] = useState([
+  const prompts =[
     "Create an image with a humorous and lighthearted theme to entertain.",
     "Make the elements exaggerated to enhance drama and visual impact.",
     "Use a bright and bold color palette for a vibrant effect.",
@@ -37,7 +37,7 @@ export default function Caricature() {
     "Ensure the artwork looks as close to real life as possible.",
     "Use abstract shapes and unconventional forms to create a unique composition.",
     "Give the design an old-fashioned, nostalgic look reminiscent of past eras.",
-  ]);
+  ];
 
   const styles = [
     "https://i.pinimg.com/736x/fe/7f/1d/fe7f1dedecc075f178e90eb098a55daa.jpg",
@@ -53,16 +53,26 @@ export default function Caricature() {
   useEffect(() => {
     const body = document.querySelector("body");
     body?.classList.remove("light", "dark");
-    body?.classList.add(theme || "");
-
-    console.log(theme, "From FE");
+    body?.classList.add(theme || "");    
   }, [theme]);
+
+  useEffect(()=>{
+    localStorage.setItem("userData", JSON.stringify(userData));
+  },[userData])
+
+  useEffect(()=>{
+    if(localStorage.getItem("uploadedImage")) setUploadedImage(localStorage.getItem("uploadedImage"));
+    if(localStorage.getItem("userData")) setUserData(localStorage.getItem("userData"));
+    if(localStorage.getItem("selectedPrompts")) setSelectedPrompts(JSON.parse(localStorage.getItem("selectedPrompts")))
+  },[])
+
 
   const handleStartOver = () => {
     setSelectedPrompts([]);
     setUploadedImage(null);
     setSelectedStyle(null);
     setStep(0);
+    // localStorage.clear();
     setUserData(null);
   };
 
@@ -72,6 +82,7 @@ export default function Caricature() {
       const reader = new FileReader();
       reader.onload = (e) => {
         setUploadedImage(e.target?.result);
+        localStorage.setItem("uploadedImage",e.target?.result);
       };
       reader.readAsDataURL(file);
     }
@@ -79,14 +90,21 @@ export default function Caricature() {
 
   const handlePromptToggle = (prompt) => {
     setSelectedPrompts((prev) =>
-      prev.includes(prompt)
-        ? prev.filter((p) => p !== prompt)
-        : [...prev, prompt]
+    {
+      const newSelectedPrompts = prev.includes(prompt)
+      ? prev.filter((p) => p !== prompt)
+      : [...prev, prompt];
+
+      localStorage.setItem("selectedPrompts",JSON.stringify(newSelectedPrompts));
+      return newSelectedPrompts;
+    }
     );
   };
 
   const handleStyleSelect = (style) => {
     setSelectedStyle(style);
+    // localStorage.setItem("step",4);
+    localStorage.setItem("selectedStyle", style);
     setStep(4);
   };
 
@@ -96,6 +114,7 @@ export default function Caricature() {
       selectedPrompts,
       selectedStyle,
     });
+    // localStorage.setItem("step",5);
     setStep(5);
   };
 
@@ -114,6 +133,7 @@ export default function Caricature() {
 
   const handleReupload = () => {
     setUploadedImage(null);
+    // localStorage.setItem("step",1);
     setStep(1);
   };
 
@@ -138,7 +158,7 @@ export default function Caricature() {
       // 3. Get the image data URL from the canvas
       const dataURL = canvas.toDataURL("image/png");
       setUploadedImage(dataURL); // Set captured image to be used at different stages
-
+      // localStorage.setItem("step",2);
       setStep(2); // Move to the next step
     } catch (error) {
       console.error("Error accessing camera or capturing image:", error);
@@ -149,23 +169,24 @@ export default function Caricature() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-red-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col transition-colors duration-200">
       <Header step={step} theme={theme} />
-
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-28">
         <AnimatePresence mode="wait">
+          {/* <p>{step+"Step....."} </p> */}
           {step === 0 && (
-            <ConsentStep setStep={setStep} setUserData={setUserData} />
+            // step+"Step....."
+            <ConsentStep  setUserData={setUserData} />
           )}
           {step === 1 && (
             <UploadStep
               uploadedImage={uploadedImage}
               handleImageUpload={handleImageUpload}
               handleReupload={handleReupload}
-              setStep={setStep}
               handleCameraCapture={handleCameraCapture}
               videoRef={videoRef}
               canvasRef={canvasRef}
-              displayCapturedImage={!!uploadedImage} // control displaying camera UI in `UploadStep`
+              displayCapturedImage={!!uploadedImage}
               setUploadedImage={setUploadedImage}
+              setStep={setStep}
             />
           )}
 

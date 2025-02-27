@@ -3,8 +3,12 @@ import LabsLogoBlack from "../assets/symbolBlack.png";
 import LabsLogoWhite from "../assets/symbolWhite.png";
 import fullLabsWhiteLogo from '../assets/labsWhite.png'
 import fullLabsBlackLogo from '../assets/labsBlack.png'
+import { UserContext } from "@/App";
+import { useContext } from "react";
 
-const Header = ({ step, theme }) => {
+const Header = ({ theme }) => {
+  const {step} = useContext(UserContext);
+
   return (
     <header className="fixed top-0 left-0 w-full bg-miracle-white dark:bg-gray-800 shadow-sm z-50">
       <div className="max-w-full mx-auto md:p-4 flex flex-col sm:flex-row items-center justify-between py-2 ">

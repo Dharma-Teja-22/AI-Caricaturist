@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Upload, X, Camera as CameraIcon, RefreshCw } from "lucide-react";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import Webcam from "react-webcam";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,9 +9,8 @@ const UploadStep = ({
   uploadedImage,
   handleImageUpload,
   handleReupload,
-  setStep,
   setUploadedImage,
-  step,
+  setStep
 }) => {
   const webcamRef = useRef(null);
   const [isCamera, setIsCamera] = useState(false);
@@ -21,6 +20,7 @@ const UploadStep = ({
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
       setUploadedImage(imageSrc);
+      localStorage.setItem("uploadedImage", imageSrc)
       setIsCamera(false);
     } else {
       console.log("Error");
@@ -39,6 +39,8 @@ const UploadStep = ({
       setIsCamera((prev) => !prev);
     }
   };
+
+  
 
   return (
     // <motion.div
@@ -68,10 +70,11 @@ const UploadStep = ({
           Choose or take a photo to turn into a caricature.
         </p>
 
+        {/* <p className="text-black">{uploadedImage + "klllk"}</p> */}
         {uploadedImage ? (
           <div className="mt-4">
             <div className="relative h-full w-full border border-black rounded-lg overflow-hidden">
-              {uploadedImage && (
+              {uploadedImage.length>0 && (
                 <>
                   <img
                     src={uploadedImage}
@@ -88,7 +91,9 @@ const UploadStep = ({
               )}
             </div>
             <button
-              onClick={() => setStep(2)}
+              onClick={() => {setStep(2)
+              // localStorage.setItem("step",2);
+              }}
               className="mt-6 px-6 py-3 w-full border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
             >
               Next
