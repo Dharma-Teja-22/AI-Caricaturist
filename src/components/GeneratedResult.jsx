@@ -88,7 +88,7 @@ const GeneratedResult = ({ handleStartOver, generatedImage }) => {
     >
       <div >
         <h2 className="text-3xl font-bold text-gray-900 mb-6 dark:text-gray-200">
-          Your Caricature
+          {JSON.parse(localStorage.getItem("userData"))?.fullName}'s Caricature
         </h2>
         {/* Capture this div */}
         <div
