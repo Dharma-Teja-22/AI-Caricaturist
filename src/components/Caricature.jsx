@@ -50,7 +50,7 @@ export default function Caricature() {
     const body = document.querySelector("body");
     body?.classList.remove("light", "dark");
     body?.classList.add(theme || "");    
-  }, [theme]);
+  }, [theme]); 
 
   // Save userData to localStorage only when it's valid
   useEffect(() => {
