@@ -13,7 +13,11 @@ function App() {
     {
       setStep(JSON.parse(localStorage.getItem("step")));
     }
+    if(localStorage.getItem("userData")){
+      setUserData(localStorage.getItem("userData"));
+    }
   },[])
+
 
   useEffect(()=>{
     if(step) localStorage.setItem("step",step);

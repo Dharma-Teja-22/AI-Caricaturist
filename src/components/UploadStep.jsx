@@ -102,7 +102,7 @@ const UploadStep = ({
         ) : (
           <div className="mt-6 flex flex-col gap-4 justify-center w-full">
             <div className="w-full">
-              <label className="inline-flex justify-center text-center items-center w-full px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 cursor-pointer transition-colors duration-200">
+              <label className="inline-flex justify-center text-center items-center w-full px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 cursor-pointer transition-colors duration-200">
                 <input
                   type="file"
                   className="sr-only"
@@ -116,7 +116,7 @@ const UploadStep = ({
             <div className="w-full">
               <button
                 onClick={handleCameraToggle}
-                className="inline-flex justify-center text-center items-center w-full px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
+                className="inline-flex justify-center text-center items-center w-full px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 transition-colors duration-200"
               >
                 <CameraIcon className="w-5 h-5 mr-2" />
                 {isCamera ? "Close Camera" : "Capture Image"}

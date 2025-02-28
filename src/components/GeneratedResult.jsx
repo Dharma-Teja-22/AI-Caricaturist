@@ -51,7 +51,7 @@
 // export default GeneratedResult;
 
 import { motion } from "framer-motion";
-import { Download } from "lucide-react";
+import { Download, Printer, RefreshCcw } from "lucide-react";
 import html2canvas from "html2canvas";
 import LabsLogo from "../assets/labs.png";
 import { useRef } from "react";
@@ -114,16 +114,17 @@ const GeneratedResult = ({ handleStartOver, generatedImage }) => {
         <div className="mt-8 flex justify-center space-x-4">
           <button
             onClick={handleStartOver}
-            className="px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-miracle-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+            className="px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-miracle-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 flex flex-center"
           >
+            <RefreshCcw className="w-5 h-5 mr-2" />
             Start Over
           </button>
           <button
             onClick={handleDownload}
             className="px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-miracle-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 flex items-center"
           >
-            <Download className="w-5 h-5 mr-2" />
-            Download
+            <Printer className="w-5 h-5 mr-2" />
+            Print my Caricature  
           </button>
         </div>
       </div>

@@ -57,12 +57,8 @@ export default function Caricature() {
   }, [theme]);
 
   useEffect(()=>{
-    localStorage.setItem("userData", JSON.stringify(userData));
-  },[userData])
-
-  useEffect(()=>{
+    console.log("hitted-2 userData in main file", userData, localStorage.getItem("userData"));
     if(localStorage.getItem("uploadedImage")) setUploadedImage(localStorage.getItem("uploadedImage"));
-    if(localStorage.getItem("userData")) setUserData(localStorage.getItem("userData"));
     if(localStorage.getItem("selectedPrompts")) setSelectedPrompts(JSON.parse(localStorage.getItem("selectedPrompts")))
   },[])
 
@@ -72,7 +68,7 @@ export default function Caricature() {
     setUploadedImage(null);
     setSelectedStyle(null);
     setStep(0);
-    // localStorage.clear();
+    localStorage.clear();
     setUserData(null);
   };
 
@@ -133,6 +129,7 @@ export default function Caricature() {
 
   const handleReupload = () => {
     setUploadedImage(null);
+    localStorage.removeItem("uploadedImage");
     // localStorage.setItem("step",1);
     setStep(1);
   };

@@ -16,14 +16,13 @@ const formSchema = z.object({
   aiUseCase: z.string().min(1, "AI use case is required"),
 });
 
-
 const ConsentStep = ({ setUserData }) => {
-  const {setStep} = useContext(UserContext);
+  const { setStep } = useContext(UserContext);
   const [consent, setConsent] = useState(false);
-  const [fullName, setFullName] = useState("Dharma");
-  const [email, setEmail] = useState("dt@example.com");
-  const [designation, setDesignation] = useState("ST");
-  const [aiUseCase, setAiUseCase] = useState("AI AI AI AI AI AI ");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [aiUseCase, setAiUseCase] = useState("");
   const [errors, setErrors] = useState({});
   const [shake, setShake] = useState({
     consent: false,
@@ -38,7 +37,16 @@ const ConsentStep = ({ setUserData }) => {
     const result = formSchema.safeParse(formData);
     if (!result.success) {
       const fieldErrors = result.error.flatten().fieldErrors;
-      setErrors(fieldErrors);
+      const updatedErrors = {
+        consent: fieldErrors.consent ? "Consent is required" : undefined,
+        fullName: fieldErrors.fullName ? "Full Name is required" : undefined,
+        email: fieldErrors.email ? "Corporate email is required" : undefined,
+        aiUseCase: fieldErrors.aiUseCase
+          ? "AI use case is required"
+          : undefined,
+      };
+      setErrors(updatedErrors);
+      // setErrors(fieldErrors);
       const newShake = {
         consent: !!fieldErrors.consent,
         fullName: !!fieldErrors.fullName,
@@ -46,21 +54,69 @@ const ConsentStep = ({ setUserData }) => {
         aiUseCase: !!fieldErrors.aiUseCase,
       };
       setShake(newShake);
-      setTimeout(() =>
-        setShake({
-          consent: false,
-          fullName: false,
-          email: false,
-          aiUseCase: false,
-        }),
+      setTimeout(
+        () =>
+          setShake({
+            consent: false,
+            fullName: false,
+            email: false,
+            aiUseCase: false,
+          }),
         500
       );
       return;
     }
     setErrors({});
+    localStorage.setItem("userData", JSON.stringify(formData));
     setUserData(formData);
     setStep(1);
-    console.log('data', formData)
+    console.log("data", formData);
+  };
+
+  const handleConsentChange = (checked) => {
+    setConsent(checked);
+
+    if (checked && errors.consent) {
+      setErrors({ ...errors, consent: undefined });
+    }
+  };
+
+  const handleFullNameChange = (e) => {
+    const value = e.target.value;
+
+    setFullName(value);
+
+    if (value && errors.fullName) {
+      setErrors({ ...errors, fullName: undefined });
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+
+    setEmail(value);
+
+    if (value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(value)) {
+        setErrors({ ...errors, email: "Please enter a correct email" });
+      } else {
+        setErrors({ ...errors, email: undefined });
+      }
+    } else {
+      setErrors({ ...errors, email: undefined });
+    }
+  };
+
+  const handleAiUseCaseChange = (e) => {
+    const value = e.target.value;
+
+    setAiUseCase(value);
+
+    if (value && errors.aiUseCase) {
+      setErrors({ ...errors, aiUseCase: undefined });
+    }
   };
 
   const wiggle = {
@@ -89,7 +145,8 @@ const ConsentStep = ({ setUserData }) => {
             <Checkbox
               id="consent"
               checked={consent}
-              onCheckedChange={setConsent}
+              // onCheckedChange={setConsent}
+              onCheckedChange={handleConsentChange}
             />
             <Label
               htmlFor="consent"
@@ -108,13 +165,14 @@ const ConsentStep = ({ setUserData }) => {
                 animate={shake.fullName ? wiggle : {}}
               >
                 <Label htmlFor="fullName" className="text-left block">
-                  Full Name
+                  Full Name<span className="text-miracle-red aira" aria-hidden="true">*</span>
                 </Label>
                 <Input
                   id="fullName"
                   value={fullName}
                   placeholder="Jane Doe"
-                  onChange={(e) => setFullName(e.target.value)}
+                  // onChange={(e) => setFullName(e.target.value)}
+                  onChange={handleFullNameChange}
                   className={`w-full bg-miracle-white border border-miracle-lightGrey/20${
                     errors.fullName ? "border-red-500" : ""
                   }`}
@@ -128,15 +186,18 @@ const ConsentStep = ({ setUserData }) => {
                 animate={shake.email ? wiggle : {}}
               >
                 <Label htmlFor="email" className="text-left block">
-                  Corporate Email
+                  Corporate Email<span className="text-miracle-red aira" aria-hidden="true">*</span>
                 </Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  // onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleEmailChange}
                   placeholder="jane.doe@example.com"
-                  className={`w-full bg-miracle-white border border-miracle-lightGrey/20${errors.email ? "border-red-500" : ""}`}
+                  className={`w-full bg-miracle-white border border-miracle-lightGrey/20${
+                    errors.email ? "border-red-500" : ""
+                  }`}
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm">{errors.email}</p>
@@ -159,13 +220,14 @@ const ConsentStep = ({ setUserData }) => {
                 animate={shake.aiUseCase ? wiggle : {}}
               >
                 <Label htmlFor="aiUseCase" className="text-left block">
-                  Most sought-after AI use case
+                  Most sought-after AI use case<span className="text-miracle-red aira" aria-hidden="true">*</span>
                 </Label>
                 <Input
                   id="aiUseCase"
                   value={aiUseCase}
                   placeholder="AI-powered early disease detection and diagnosis."
-                  onChange={(e) => setAiUseCase(e.target.value)}
+                  // onChange={(e) => setAiUseCase(e.target.value)}
+                  onChange={handleAiUseCaseChange}
                   className={`w-full bg-miracle-white border border-miracle-lightGrey/20${
                     errors.aiUseCase ? "border-red-500" : ""
                   }`}
@@ -178,7 +240,7 @@ const ConsentStep = ({ setUserData }) => {
           )}
           <button
             type="submit"
-            className="mt-6 px-6 py-3 w-full border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
+            className="mt-6 px-6 py-3 w-full border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 transition-colors duration-200"
           >
             Continue
           </button>
