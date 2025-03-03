@@ -88,18 +88,10 @@ const UploadStep = ({
       <ToastContainer />
 
       <div className="bg-white shadow-lg rounded-lg p-6 md:p-8 text-center ">
-        <Upload className="mx-auto h-16 w-16 text-blue-500" />
-        <h2 className="mt-4 text-xl sm:text-2xl font-semibold text-gray-900">
-          Upload or Capture an Image
-        </h2>
-        <p className="mt-2 text-sm text-gray-500">
-          Choose or take a photo to turn into a caricature.
-        </p>
-
-        {/* <p className="text-black">{uploadedImage + "klllk"}</p> */}
         {uploadedImage ? (
           <div className="mt-4">
-            <div className="relative h-full w-full border border-black rounded-lg overflow-hidden">
+            <p className="mt-4 text-xl sm:text-2xl font-semibold text-gray-900 mb-2">Your Uploaded Image </p>
+            <div className="relative h-full w-full rounded-lg overflow-hidden">
               {uploadedImage.length>0 && (
                 <>
                   <img
@@ -124,7 +116,15 @@ const UploadStep = ({
             </button>
           </div>
         ) : (
+          
           <div className="mt-6 flex flex-col gap-4 justify-center w-full">
+            <Upload className="mx-auto h-16 w-16 text-blue-500" />
+            <h2 className="mt-4 text-xl sm:text-2xl font-semibold text-gray-900">
+              Upload or Capture an Image
+            </h2>
+            <p className="mt-2 text-sm text-gray-500">
+              Choose or take a photo to turn into a caricature.
+            </p>
             <div className="w-full">
               <label className="inline-flex justify-center text-center items-center w-full px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 cursor-pointer transition-colors duration-200">
                 <input
