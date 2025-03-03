@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Upload, X, Camera as CameraIcon, RefreshCw } from "lucide-react";
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback } from "react";
 import Webcam from "react-webcam";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,7 +10,8 @@ const UploadStep = ({
   handleImageUpload,
   handleReupload,
   setUploadedImage,
-  setStep
+  setStep,
+  uploadUserImage
 }) => {
   const webcamRef = useRef(null);
   const [isCamera, setIsCamera] = useState(false);
@@ -40,7 +41,32 @@ const UploadStep = ({
     }
   };
 
-  
+  const base64ToFile = (base64String, fileName) => {
+    const arr = base64String.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1]; // Extract MIME type
+    const bstr = atob(arr[1]); // Decode Base64
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], fileName, { type: mime });
+};
+
+
+  const handleNext = async () => {
+    try{
+      console.log(uploadedImage)
+      // base64ToFile(uploadedImage, "image")
+      // uploadUserImage(base64ToFile(uploadedImage, "uploadedImage"));
+      setStep(2);
+    }
+    catch(err){
+      console.error(err);
+    }
+  }
 
   return (
     // <motion.div
@@ -91,9 +117,7 @@ const UploadStep = ({
               )}
             </div>
             <button
-              onClick={() => {setStep(2)
-              // localStorage.setItem("step",2);
-              }}
+              onClick={handleNext}
               className="mt-6 px-6 py-3 w-full border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
             >
               Next

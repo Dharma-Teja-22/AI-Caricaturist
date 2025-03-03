@@ -1,21 +1,53 @@
 import axios from "axios";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+// const SERVER_URL = window.location.origin;
+
 export default {
-  get: {
-    fakeProducts: () => {
-      return axios.get("https://fakestoreapi.com/products/1");
-    },
-  },
   post: {
-    fakeProduct: (body) => {
-      return axios.post("https://fakestoreapi.com/products", body);
+    uploadUserImage : async (image) => {
+      try
+      {
+        const formData = new FormData();
+        formData.append("image", image);
+        const response = await axios.post(`${SERVER_URL}/api/uploadUserImage`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        // console.log(response);
+        
+        return response.data;
+      }
+      catch (error){
+        console.log("Error: ", error);
+        throw error;
+      }
     },
+
+    generateCaricature : async (userImageURL) =>{
+      try
+      {
+        const response = await axios.post(`${SERVER_URL}/getCaricatureImage`,{userImageURL});
+        return response.data;
+      }
+      catch(error)
+      {
+        console.log("Error : ", error);
+        throw error;
+      }
+    }
   },
-  put: {
-    fakeProduct: (body) => {
-      return axios.put("https://fakestoreapi.com/products/7", body);
-    },
-  },
-  delete: {
-    fakeProduct: () => axios.delete("https://fakestoreapi.com/products/6"),
-  },
+
+  get:{
+    getStyles: async() => {
+      try{
+        const response = await axios.get(`${SERVER_URL}/api/getStyles`)
+        return response.data;
+      }
+      catch(error){
+        console.log(error);
+        throw error;
+      }
+    }
+  }
 };

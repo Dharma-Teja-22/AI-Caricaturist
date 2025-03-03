@@ -70,7 +70,7 @@ const ConsentStep = ({ setUserData }) => {
     localStorage.setItem("userData", JSON.stringify(formData));
     setUserData(formData);
     setStep(1);
-    console.log("data", formData);
+    // console.log("data", formData);
   };
 
   const handleConsentChange = (checked) => {
@@ -220,7 +220,8 @@ const ConsentStep = ({ setUserData }) => {
                 animate={shake.aiUseCase ? wiggle : {}}
               >
                 <Label htmlFor="aiUseCase" className="text-left block">
-                  Most sought-after AI use case <span className="text-miracle-red aira" aria-hidden="true">*</span>
+                  Most sought-after AI use case 
+                  {/* <span className="text-miracle-red aira" aria-hidden="true">*</span> */}
                 </Label>
                 <Input
                   id="aiUseCase"

@@ -56,7 +56,7 @@ import html2canvas from "html2canvas";
 import LabsLogo from "../assets/labs.png";
 import { useRef } from "react";
 
-const GeneratedResult = ({ handleStartOver, generatedImage }) => {
+const GeneratedResult = ({ handleStartOver, generatedImage, userData }) => {
   const captureRef = useRef(null);
 
 
@@ -108,8 +108,11 @@ const GeneratedResult = ({ handleStartOver, generatedImage }) => {
               alt="Generated Caricature"
             />
           </div>
-          <p className="mt-4 text-sm text-gray-600">Here is your caricature</p>
+          <p className="mt-4 text-sm text-gray-800">{JSON.parse(userData)?.fullName || 'Here is your Caricature'}</p>
+
         </div>
+          <div>
+          </div>
 
         <div className="mt-8 flex justify-center space-x-4">
           <button

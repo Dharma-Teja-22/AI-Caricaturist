@@ -1,6 +1,16 @@
+import API from "@/services/API"
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 
-const StyleSelection = ({ styles, handleStyleSelect, setStep }) => {
+const StyleSelection = ({ handleStyleSelect, setStep }) => {
+  const [styles, setStyles] = useState(null)
+  useEffect(()=>{
+    (async () => {
+      const response = await API.get.getStyles();
+      // console.log(response?.blobsList, "From styles"); 
+      setStyles(response?.blobsList);
+    })();
+  },[])
 
   return (
     <motion.div
@@ -13,7 +23,7 @@ const StyleSelection = ({ styles, handleStyleSelect, setStep }) => {
     >
       <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center dark:text-miracle-white">Choose a Style</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {styles.map((style, index) => (
+        {styles && styles.map((style, index) => (
           <motion.button
             key={style}
             onClick={() => handleStyleSelect(style)}
@@ -26,7 +36,7 @@ const StyleSelection = ({ styles, handleStyleSelect, setStep }) => {
             }}
             className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-200 transform hover:scale-105"
           >
-            <img src={style || "/placeholder.svg"} alt="Style" layout="fill" className="object-cover" />
+            <img src={style} alt="Style" layout="fill" className="object-cover" />
           </motion.button>
         ))}
       </div>
