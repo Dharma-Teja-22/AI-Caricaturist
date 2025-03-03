@@ -93,7 +93,7 @@ const GeneratedResult = ({ handleStartOver, generatedImage }) => {
         {/* Capture this div */}
         <div
           ref={captureRef}
-          className="bg-white shadow-lg rounded-lg p-4 inline-block items-center "
+          className="bg-white shadow-lg rounded-lg p-4 inline-block items-center  "
         >
           <div className="flex justify-between items-center ">
             <img src={LabsLogo} alt="Labs Logo" className="h-10 w-30 mb-2" />

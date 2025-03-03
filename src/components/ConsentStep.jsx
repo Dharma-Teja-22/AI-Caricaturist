@@ -160,12 +160,12 @@ const ConsentStep = ({ setUserData }) => {
           )}
           {consent && (
             <>
-              <motion.div
+              <motion.div 
                 className="space-y-2"
                 animate={shake.fullName ? wiggle : {}}
               >
                 <Label htmlFor="fullName" className="text-left block">
-                  Full Name<span className="text-miracle-red aira" aria-hidden="true">*</span>
+                  Full Name <span className="text-miracle-red aira" aria-hidden="true">*</span>
                 </Label>
                 <Input
                   id="fullName"
@@ -186,7 +186,7 @@ const ConsentStep = ({ setUserData }) => {
                 animate={shake.email ? wiggle : {}}
               >
                 <Label htmlFor="email" className="text-left block">
-                  Corporate Email<span className="text-miracle-red aira" aria-hidden="true">*</span>
+                  Corporate Email <span className="text-miracle-red aira" aria-hidden="true">*</span>
                 </Label>
                 <Input
                   id="email"
@@ -220,7 +220,7 @@ const ConsentStep = ({ setUserData }) => {
                 animate={shake.aiUseCase ? wiggle : {}}
               >
                 <Label htmlFor="aiUseCase" className="text-left block">
-                  Most sought-after AI use case<span className="text-miracle-red aira" aria-hidden="true">*</span>
+                  Most sought-after AI use case <span className="text-miracle-red aira" aria-hidden="true">*</span>
                 </Label>
                 <Input
                   id="aiUseCase"
