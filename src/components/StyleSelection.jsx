@@ -2,28 +2,69 @@ import API from "@/services/API";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const StyleSelection = ({ setStep }) => {
-  const [styles, setStyles] = useState(null);
+const StyleSelection = ({ setStep, userImageURL, userId, setGeneratedImage }) => {
+  const [styles, setStyles] = useState([]);
   const [selectedStyle, setSelectedStyle] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [prompt, setPrompt] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   useEffect(() => {
     (async () => {
       const response = await API.get.getStyles();
-      setStyles(response?.blobsList);
+      if (response?.status) {
+        setStyles(response?.data || []);
+      }
     })();
   }, []);
 
-  const handleSelect = (style) => {
-    setSelectedStyle((prevStyle) => (prevStyle === style ? null : style));
-  };  
+  useEffect(() => {
+    if (selectedStyle?.Prompt) {
+      setPrompt(selectedStyle.Prompt);
+    }
+  }, [selectedStyle]);
 
-  const handleGenerateCaricature = () => {
+  const handleSelect = (style) => {
+    setSelectedStyle((prevStyle) => (prevStyle?.Id === style.Id ? null : style));
+  };
+
+  const handleGenerateCaricature = async () => {
     if (selectedStyle) {
-      setStep(3);
+      setIsLoading(true); // Start loading
+      try {        
+        const response = await API.post.generateCaricature(
+          userId,
+          userImageURL,
+          selectedStyle?.StyleImage,
+          selectedStyle?.Prompt
+        );
+        console.log(response);
+        setGeneratedImage(response?.data);
+
+        localStorage.setItem("generatedImage", response?.data);
+        setStep(3); // Move to the next step after response
+      } catch (error) {
+        console.error("Error generating caricature:", error);
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
     }
   };
+
+  const handlePromptUpdate = async () =>{
+    console.log(selectedStyle?.Id, prompt); 
+    try
+    {
+      const response = await API.put.updateStyleData(selectedStyle?.Id,prompt);
+      console.log(response);
+      
+    }
+    catch(err)
+    {
+      console.error(err);
+      
+    }
+  }
 
   return (
     <motion.div
@@ -38,36 +79,28 @@ const StyleSelection = ({ setStep }) => {
         Choose a Style
       </h2>
 
-      {/* Responsive Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
-        {styles &&
-          styles.map((style, index) => (
-            <motion.button
-              key={style}
-              onClick={() => handleSelect(style)}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                delay: index * 0.1,
-              }}
-              className={`relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-transform duration-200 transform hover:scale-105 ${
-                selectedStyle === style ? "ring-4 ring-blue-500" : ""
-              }`}
-            >
-              <img
-                src={style}
-                alt="Style"
-                className="object-cover w-full h-full"
-              />
-            </motion.button>
-          ))}
+        {styles.map((style, index) => (
+          <motion.button
+            key={style.Id}
+            onClick={() => handleSelect(style)}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: "spring", stiffness: 200, delay: index * 0.1 }}
+            className={`relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-transform duration-200 transform hover:scale-105 ${
+              selectedStyle?.Id === style.Id ? "ring-4 ring-blue-500" : ""
+            }`}
+          >
+            <img
+              src={style.StyleImage}
+              alt="Style"
+              className="object-cover w-full h-full"
+            />
+          </motion.button>
+        ))}
       </div>
 
-      {/* Buttons Section */}
       <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-        {/* Back Button */}
         <button
           onClick={() => setStep(1)}
           className="w-full sm:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-700 hover:bg-gray-600 transition"
@@ -75,26 +108,55 @@ const StyleSelection = ({ setStep }) => {
           Back
         </button>
 
-        {/* Action Buttons (Only show when a style is selected) */}
         {selectedStyle && (
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <button
               onClick={() => setShowModal(true)}
-              className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-700 transition"
+              className="w-full sm:w-auto px-6 py-3 bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 text-miracle-white font-medium rounded-md shadow transition"
             >
               Customize Prompt
             </button>
             <button
               onClick={handleGenerateCaricature}
-              className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white font-medium rounded-md shadow hover:bg-green-700 transition"
+              disabled={isLoading} // Disable button while loading
+              className={`w-full sm:w-auto px-6 py-3 rounded-md shadow transition ${
+                isLoading
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 text-white"
+              }`}
             >
-              Generate Caricature
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    ></path>
+                  </svg>
+                  Generating...
+                </span>
+              ) : (
+                "Generate Caricature"
+              )}
             </button>
           </div>
         )}
       </div>
 
-      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 p-4">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm sm:max-w-md">
@@ -111,13 +173,14 @@ const StyleSelection = ({ setStep }) => {
             <div className="flex justify-end gap-3 mt-4">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-gray-400 text-white rounded-md"
+                className="px-4 py-2 bg-miracle-red hover:bg-miracle-red/80 text-white rounded-md"
               >
                 Cancel
               </button>
               <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md"
+                // onClick={() => setShowModal(false)}
+                onClick={handlePromptUpdate}
+                className="px-4 py-2 bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 text-white rounded-md"
               >
                 Submit
               </button>

@@ -53,7 +53,7 @@ const GeneratedResult = ({ handleStartOver, generatedImage, userData }) => {
             />
           </div>
           <p className="mt-4 text-sm text-gray-800 font-bold">
-            {JSON.parse(userData)?.fullName || "Here is your Caricature"}
+            {userData?.fullName || JSON.parse(userData)?.fullName || "Here is your Caricature"}
           </p>
         </div>
 
@@ -113,7 +113,7 @@ const GeneratedResult = ({ handleStartOver, generatedImage, userData }) => {
               </button>
               <button
                 onClick={handleSubmitEmail}
-                className="w-full sm:w-auto px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                className="w-full sm:w-auto px-4 py-2 text-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 rounded-md "
               >
                 Submit
               </button>

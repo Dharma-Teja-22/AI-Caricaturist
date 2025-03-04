@@ -10,7 +10,7 @@ const formSchema = z.object({
   consent: z.literal(true, {
     errorMap: () => ({ message: "You must give consent to continue." }),
   }),
-  fullName: z.string().min(1, "Full Name is required"),
+  fullName: z.string().min(3, "Full Name is required"),
 });
 
 const ConsentStep = ({ setUserData }) => {
