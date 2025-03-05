@@ -65,6 +65,7 @@ const UploadStep = ({
       setStep(2);
     } catch (err) {
       console.error(err);
+      toast.error("Error while uploading the Image");
     }
   };
 

@@ -1,6 +1,6 @@
 import axios from "axios";
-// const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-const SERVER_URL = window.location.origin;
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+// const SERVER_URL = window.location.origin;
 
 export default {
   post: {
@@ -68,6 +68,16 @@ export default {
       }
     },
     
+    getUserData: async() =>{
+      try{
+        const response = await axios.get(`${SERVER_URL}/api/getUsers`)
+        return response.data;
+      }
+      catch(error){
+        console.log(error);
+        throw error;
+      }
+    }
   },
 
   put:{

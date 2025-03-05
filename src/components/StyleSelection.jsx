@@ -1,6 +1,8 @@
 import API from "@/services/API";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StyleSelection = ({ setStep, userImageURL, userId, setGeneratedImage }) => {
   const [styles, setStyles] = useState([]);
@@ -38,13 +40,12 @@ const StyleSelection = ({ setStep, userImageURL, userId, setGeneratedImage }) =>
           selectedStyle?.StyleImage,
           selectedStyle?.Prompt
         );
-        console.log(response);
         setGeneratedImage(response?.data);
-
         localStorage.setItem("generatedImage", response?.data);
         setStep(3); // Move to the next step after response
       } catch (error) {
         console.error("Error generating caricature:", error);
+        toast.error("Error while generating your caricature");
       } finally {
         setIsLoading(false); // Stop loading
       }
@@ -57,12 +58,12 @@ const StyleSelection = ({ setStep, userImageURL, userId, setGeneratedImage }) =>
     {
       const response = await API.put.updateStyleData(selectedStyle?.Id,prompt);
       console.log(response);
-      
+      toast.success("Prompt updated successfully!");
     }
     catch(err)
     {
       console.error(err);
-      
+      toast.error("Error while updating the prompt");
     }
   }
 
@@ -78,7 +79,7 @@ const StyleSelection = ({ setStep, userImageURL, userId, setGeneratedImage }) =>
       <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 text-center dark:text-miracle-white">
         Choose a Style
       </h2>
-
+      <ToastContainer/>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
         {styles.map((style, index) => (
           <motion.button
