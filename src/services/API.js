@@ -53,6 +53,19 @@ export default {
         console.log(error);
         throw error;
       }
+    },
+
+    sendMail : async(Email, blobUrl, userName) =>{
+      try
+      {
+        const response = await axios.post(`${SERVER_URL}/api/email/send-attachment`,{Email, blobUrl, userName});
+        return response.data;
+      }
+      catch(error)
+      {
+        console.log("Error : ", error);
+        throw error;
+      }
     }
   },
 

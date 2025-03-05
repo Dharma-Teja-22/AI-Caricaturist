@@ -58,9 +58,10 @@ const TableData = () => {
             <table className="w-full text-sm">
               <thead>
                 <tr>
-                  <th className="px-4 py-2 text-left w-1/3">Name</th>
-                  <th className="px-4 py-2 text-left w-1/3">Email</th>
-                  <th className="px-4 py-2 text-left w-1/3">Caricature</th>
+                  <th className="px-4 py-2 text-left w-1/4">Name</th>
+                  <th className="px-4 py-2 text-left w-1/4">Email</th>
+                  <th className="px-4 py-2 text-left w-1/4">Caricature</th>
+                  <th className="px-4 py-2 text-left w-1/4">Time-Stamp</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,25 +74,28 @@ const TableData = () => {
                       transition={{ duration: 0.3, delay: idx * 0.1 }}
                       className="border-t border-gray-200"
                     >
-                      <td className="px-4 py-2 w-1/3" title={item.UserName}>
+                      <td className="px-4 py-2 w-1/4" title={item.UserName}>
                         {truncateText(item.UserName)}
                       </td>
-                      <td className="px-4 py-2 w-1/3" title={item.UserEmail}>
+                      <td className="px-4 py-2 w-1/4" title={item.UserEmail}>
                         {truncateText(item.UserEmail || "-")}
                       </td>
-                      <td className="px-4 py-2 w-1/3">
+                      <td className="px-4 py-2 w-1/4">
                         {item.CaricatureImage ? (
                           <div className="flex items-center gap-4 text-blue-700">
-                            <img
+                            {/* <img
                               src={item.CaricatureImage}
                               alt="Caricature"
                               className="w-12 h-12 md:w-16 md:h-16 rounded-lg shadow-md"
-                            />
+                            /> */}
                             <a href={item.CaricatureImage}> Click Here</a>
                           </div>
                         ) : (
                           "No Caricature"
                         )}
+                      </td >
+                      <td className="px-4 py-2 w-1/4" title={item.TimeStamp}>
+                        {item.TimeStamp}
                       </td>
                     </motion.tr>
                   ))

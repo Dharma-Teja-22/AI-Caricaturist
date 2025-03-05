@@ -3,6 +3,9 @@ import { Printer, RefreshCcw, Send } from "lucide-react";
 import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import LabsLogo from "../assets/labs.png";
+import API from "@/services/API";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const GeneratedResult = ({ handleStartOver, generatedImage, userData }) => {
   const captureRef = useRef(null);
@@ -15,9 +18,21 @@ const GeneratedResult = ({ handleStartOver, generatedImage, userData }) => {
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
-  const handleSubmitEmail = () => {
-    console.log("Send to email:", email);
-    handleCloseModal();
+  const handleSendMail = async () => {
+    try{
+      const response = await API.post.sendMail(email, generatedImage, userData.fullName || JSON.parse(userData)?.fullName)
+      console.log(response);
+      if(response?.status)
+      {
+        toast.success(response?.message || "Mail sent successfully")
+      }
+      handleCloseModal();
+    }
+    catch(err)
+    {
+      toast.error("Error while sending Mail")
+      console.log(err);
+    }
   };
 
   return (
@@ -29,6 +44,7 @@ const GeneratedResult = ({ handleStartOver, generatedImage, userData }) => {
       transition={{ duration: 0.5 }}
       className="text-center max-w-2xl mx-auto px-4 sm:px-6 lg:px-8"
     >
+      <ToastContainer/>
       <h2 className="text-3xl font-bold text-gray-900 mb-6 dark:text-gray-200">
         Your Caricature
       </h2>
@@ -112,7 +128,7 @@ const GeneratedResult = ({ handleStartOver, generatedImage, userData }) => {
                 Cancel
               </button>
               <button
-                onClick={handleSubmitEmail}
+                onClick={handleSendMail}
                 className="w-full sm:w-auto px-4 py-2 text-white bg-miracle-darkBlue hover:bg-miracle-darkBlue/80 rounded-md "
               >
                 Submit

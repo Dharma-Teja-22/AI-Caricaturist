@@ -108,8 +108,8 @@ export default function Caricature() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-red-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col transition-colors duration-200">
       <Header step={step} theme={theme} />
-      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-28 ">
-        {/* <AnimatePresence mode="wait">
+      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-28 border border-white">
+        <AnimatePresence mode="wait">
           {step === 0 && (
             <ConsentStep  setUserData={setUserData} />
           )}
@@ -150,8 +150,8 @@ export default function Caricature() {
               // generatedImage="https://aicaricaturedemo.blob.core.windows.net/ai-caricature-styles-data/2025-03-03T19:34:04.895Z-PHOTO-2025-02-25-19-47-12.jpg?sv=2025-01-05&ss=btqf&srt=sco&spr=https&st=2025-03-03T19%3A34%3A04Z&se=2027-03-03T19%3A34%3A04Z&sp=rwdlacupi&sig=%2FkOGnmBkuqpl%2BNHYWgLV4u6OweOGEAYUudSEkgbj2nE%3D"
             />
           )}
-        </AnimatePresence> */}
-        <TableData/>
+        </AnimatePresence>
+        {/* <TableData/> */}
       </main>
       {/* Hidden video and canvas elements */}
       <video ref={videoRef} style={{ display: "none" }} />
